@@ -2,11 +2,20 @@ package iot
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
 
+type Command struct {
+	Name string "json:name"
+	Info string "json:info"
+}
+type DeviceInfo struct {
+	Info     string    "json:info"
+	Type     string    "json:type"
+	ip       string    "json:ip"
+	Commands []Command "json:commands"
+}
 type Device struct {
 	Name     string
 	Id       string
@@ -14,7 +23,7 @@ type Device struct {
 	Url      string
 }
 
-func (d *Device) TriggerGetCommandsFromDevice() error {
+func (d *Device) TriggerGetInfoFromDevice() error {
 	client := http.DefaultClient
 	req, err := http.NewRequest("GET", d.Url, nil)
 	if err != nil {
@@ -32,12 +41,11 @@ func (d *Device) TriggerGetCommandsFromDevice() error {
 	if err != nil {
 		return err
 	}
-	var data any
+	var data DeviceInfo
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		return err
 	}
-	fmt.Println(data)
 	return nil
 }
 
