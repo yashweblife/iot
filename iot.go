@@ -19,34 +19,34 @@ type DeviceInfo struct {
 type Device struct {
 	Name     string
 	Id       string
-	Commands []string
+	Commands []Command
 	Url      string
 }
 
-func (d *Device) TriggerGetInfoFromDevice() error {
+func (d *Device) TriggerGetInfoFromDevice() (DeviceInfo, error) {
 	client := http.DefaultClient
 	req, err := http.NewRequest("GET", d.Url, nil)
 	if err != nil {
-		return err
+		return DeviceInfo{}, err
 	}
 	res, err := client.Do(req)
 	if err != nil {
-		return err
+		return DeviceInfo{}, err
 	}
 	if res.StatusCode != http.StatusOK {
-		return err
+		return DeviceInfo{}, err
 	}
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return err
+		return DeviceInfo{}, err
 	}
 	var data DeviceInfo
 	err = json.Unmarshal(body, &data)
 	if err != nil {
-		return err
+		return DeviceInfo{}, err
 	}
-	return nil
+	return data, nil
 }
 
 type IOT struct {
