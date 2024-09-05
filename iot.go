@@ -48,7 +48,6 @@ func (d *Device) TriggerGetInfoFromDevice() (DeviceInfo, error) {
 	if err != nil {
 		return DeviceInfo{}, err
 	}
-	d.Url = data.ip
 	d.Commands = data.Commands
 	return data, nil
 }
