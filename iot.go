@@ -2,6 +2,7 @@ package iot
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -36,7 +37,7 @@ func (d *Device) TriggerGetCommandsFromDevice() error {
 	if err != nil {
 		return err
 	}
-	fmt.println(data)
+	fmt.Println(data)
 	return nil
 }
 
