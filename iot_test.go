@@ -16,7 +16,7 @@ func TestTriggerGetCommandsFromDevice(t *testing.T) {
 		t.Fatal(err)
 	}
 	fmt.Println(val.Ip)
-	if "http://192.168.0.29:81/" != val.Ip {
+	if d.Url != val.Ip {
 		t.Fatal("ip not equal")
 	}
 }
