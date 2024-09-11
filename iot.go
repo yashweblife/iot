@@ -52,22 +52,10 @@ func (d *Device) TriggerGetInfoFromDevice() (DeviceInfo, error) {
 	return data, nil
 }
 func (d *Device) TriggerCommand(name string) error {
+	fmt.Println("Triggering command: ", name)
 	if d.Url == "" {
 		return errors.New("url is empty")
 	}
-	if len(d.Commands) == 0 {
-		return errors.New("no commands")
-	}
-	check := false
-	for _, v := range d.Commands {
-		if v.Name == name {
-			check = true
-		}
-	}
-	if !check {
-		return errors.New("command not found")
-	}
-
 	client := http.DefaultClient
 	req, err := http.NewRequest("POST", d.Url+name, nil)
 	if err != nil {
@@ -81,16 +69,19 @@ func (d *Device) TriggerCommand(name string) error {
 	if res.StatusCode != http.StatusOK {
 		return err
 	}
-	var data string
+	type Response struct {
+		Data string "json:data"
+	}
+	var data Response
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}
 	err = json.Unmarshal(body, &data)
+	fmt.Print("\n\n\n\n", data.Data, "\n\n\n\n")
 	if err != nil {
 		return err
 	}
-	fmt.Println(data)
 	return nil
 }
 
