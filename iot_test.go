@@ -11,14 +11,13 @@ func TestTriggerGetCommandsFromDevice(t *testing.T) {
 		Id:   "test",
 		Url:  "http://192.168.0.29:81/",
 	}
-	vaL, err := d.TriggerGetInfoFromDevice()
+	val, err := d.TriggerGetInfoFromDevice()
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println("19:::: ", d.Url)
-	fmt.Println("20:::: ", vaL.ip)
-	if d.Url != vaL.ip {
-		t.Fatal("url error")
+	fmt.Println(val.Ip)
+	if "http://192.168.0.29:81/" != val.Ip {
+		t.Fatal("ip not equal")
 	}
 }
 
