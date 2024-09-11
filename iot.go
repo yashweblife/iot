@@ -15,7 +15,7 @@ type Command struct {
 type DeviceInfo struct {
 	Info     string    "json:info"
 	Type     string    "json:type"
-	ip       string    "json:ip"
+	Ip       string    "json:ip"
 	Commands []Command "json:commands"
 }
 type Device struct {
