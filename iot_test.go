@@ -1,7 +1,6 @@
 package iot
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -15,24 +14,28 @@ func TestTriggerGetCommandsFromDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println(val.Ip)
 	if d.Url != val.Ip {
 		t.Fatal("ip not equal")
 	}
 }
 
 func TestTriggerCommand(t *testing.T) {
+
 	var d Device = Device{
 		Name: "test",
 		Id:   "test",
 		Url:  "http://192.168.0.29:81/",
 	}
-	_, err := d.TriggerGetInfoFromDevice()
-	fmt.Println(d.Url)
+
+	val, err := d.TriggerGetInfoFromDevice()
+
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = d.TriggerCommand("test")
+
+	var command = val.Commands[0].Name
+	err = d.TriggerCommand(command)
+
 	if err != nil {
 		t.Fatal(err)
 	}
