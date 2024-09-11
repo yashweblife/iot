@@ -9,14 +9,14 @@ import (
 )
 
 type Command struct {
-	Name string "json:name"
-	Info string "json:info"
+	Name string `json:"name"`
+	Info string `json:"info"`
 }
 type DeviceInfo struct {
-	Info     string    "json:info"
-	Type     string    "json:type"
-	Ip       string    "json:ip"
-	Commands []Command "json:commands"
+	Info     string    `json:"info"`
+	Type     string    `json:"type"`
+	Ip       string    `json:"ip"`
+	Commands []Command `json:"commands"`
 }
 type Device struct {
 	Name     string
@@ -69,16 +69,16 @@ func (d *Device) TriggerCommand(name string) error {
 	if res.StatusCode != http.StatusOK {
 		return err
 	}
-	type Response struct {
-		Data string "json:data"
+	type Outcome struct {
+		Data string `json:"data"`
 	}
-	var data Response
+	var jsonRes Outcome
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(body, &data)
-	fmt.Print("\n\n\n\n", data.Data, "\n\n\n\n")
+	err = json.Unmarshal(body, &jsonRes)
+	fmt.Print("\n\n\n\n", jsonRes.Data, "\n\n\n\n")
 	if err != nil {
 		return err
 	}
